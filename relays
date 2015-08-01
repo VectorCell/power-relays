@@ -1,0 +1,11 @@
+#!/bin/bash
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+dir=$(dirname $(readlink -f $DIR/$(basename "$0")))
+cd $dir
+
+if [ ! -e main ]; then
+	echo "building in $dir"
+	make
+fi
+sudo ./main $@
