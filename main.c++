@@ -38,6 +38,7 @@ struct change {
 	change (const pin& _p, const state_t& _s) : p(_p), s(_s) {}
 };
 
+// returns either LOW or HIGH
 state_t get_state(const pin& p) {
 	#ifndef DEBUG
 		return digitalRead(p.num);
@@ -46,6 +47,7 @@ state_t get_state(const pin& p) {
 	#endif
 }
 
+// returns either OFF or ON
 state_t get_logical_state(const pin& p) {
 	state_t s = get_state(p);
 	if (s == p.on) {
@@ -145,9 +147,10 @@ int main (int argc, char *argv[]) {
 				changes.push_back(change(custom, s));
 			}
 		} else {
-			// pin not specified
-			changes.push_back(change(pins[0], s));
-			changes.push_back(change(pins[1], s));
+			// pin not specified, apply action to them all!
+			for (pin& p : pins) {
+				changes.push_back(change(p, s));
+			}
 		}
 		for (change& c : changes) {
 			do_change(c);
