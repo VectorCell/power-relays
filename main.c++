@@ -94,7 +94,7 @@ int main (int argc, char *argv[]) {
 	vector<pin> pins;
 	pins.push_back(pin(12, HIGH, "top"));
 	pins.push_back(pin(13, HIGH, "bottom"));
-	pins.push_back(pin(15, HIGH, "leds"));
+	pins.push_back(pin(1,  HIGH, "leds"));
 
 	vector<pair<string, state_t>> state_names;
 	state_names.push_back(make_pair("low",    LOW));
