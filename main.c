@@ -1,5 +1,7 @@
 /*
  * main.c
+ *
+ * This is the old version. The new version is in main.c++
  */
 
 #include <stdlib.h>

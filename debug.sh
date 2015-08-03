@@ -2,8 +2,10 @@
 
 # for testing on a machine without wiringPi.h
 
-rm -f main-debug
+outputfile="/run/shm/relays-debug-$RANDOM"
+
 g++ -pedantic -std=c++0x -Wall -MD -c main.c++ -DDEBUG
-g++ -pedantic -std=c++0x -Wall main.o -o main-debug -DDEBUG
+g++ -pedantic -std=c++0x -Wall main.o -o $outputfile -DDEBUG
 rm -f *.o *.d
-./main-debug $@
+$outputfile $@
+rm -f $outputfile
