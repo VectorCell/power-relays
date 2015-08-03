@@ -2,8 +2,6 @@
  * main.c++
  */
 
-//#define DEBUG
-
 #include <cstdio> // printf
 #include <cstdint>
 #include <cstring> // strcmp

@@ -1,4 +1,5 @@
 main
 main-old
+main-debug
 *.d
 *.o
