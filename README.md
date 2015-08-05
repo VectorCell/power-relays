@@ -10,4 +10,4 @@ Tested using the following compilers in the following operating systems:
 | g++ | 4.6.3, using std=c++0x | elementary OS Luna, Ubuntu 12.04 |
 | clang++ | 3.4 | Ubuntu 14.04 |
 
-Obviously, compiled using the DEBUG flag in all cases, except on Rasbpian.
+Compiled using the -DDEBUG flag in all cases, except on Rasbpian.
