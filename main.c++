@@ -95,14 +95,6 @@ int main (int argc, char *argv[]) {
 	// if we need a new line at the end of output
 	bool need_nl = false;
 
-	// here's where pin assigments are made
-	// these are numbered according to the pin mapping used by wiringPi,
-	// NOT the actual Broadcam numbers
-	vector<pin> pins;
-	pins.push_back(pin(12, HIGH, "top"));
-	pins.push_back(pin(13, HIGH, "bottom"));
-	pins.push_back(pin(4,  HIGH, "leds"));
-
 	vector<pair<string, action>> state_actions;
 	state_actions.push_back(make_pair("low",    [] (const pin& p) -> void {set_state(p, LOW);}));
 	state_actions.push_back(make_pair("high",   [] (const pin& p) -> void {set_state(p, HIGH);}));
@@ -110,6 +102,14 @@ int main (int argc, char *argv[]) {
 	state_actions.push_back(make_pair("on",     [] (const pin& p) -> void {set_state(p, ON);}));
 	state_actions.push_back(make_pair("toggle", [] (const pin& p) -> void {set_state(p, TOGGLE);}));
 	state_actions.push_back(make_pair("state",  [&need_nl] (const pin& p) -> void {print_logical_state(p); need_nl = true;}));
+
+	// here's where pin assigments are made
+	// these are numbered according to the pin mapping used by wiringPi,
+	// NOT the actual Broadcam numbers
+	vector<pin> pins;
+	pins.push_back(pin(12, HIGH, "top"));
+	pins.push_back(pin(13, HIGH, "bottom"));
+	pins.push_back(pin(4,  HIGH, "leds"));
 
 	if (argc <= 1) {
 		cout << "usage:    relays STATE [PIN]" << endl;
