@@ -4,7 +4,7 @@
 
 #include <cstdio> // printf
 #include <cstdint>
-#include <cstring> // strcmp
+#include <cstring> // strcm
 
 #include <iostream> // cout
 #include <utility> // make_pair
