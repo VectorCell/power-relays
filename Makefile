@@ -8,7 +8,9 @@ endif
 
 CXXFLAGS := -pedantic -std=c++11 -O3 -Wall
 CFLAGS   := -std=c99 -O3 -Wall
-LDFLAGS  := -lwiringPi
+ifndef VARS
+	LDFLAGS  := -lwiringPi
+endif
 VALGRIND := valgrind
 
 main : main.o Makefile main-old
