@@ -2,9 +2,12 @@ ifeq ($(CXX), clang++)
 	COVFLAGS := --coverage
 	GCOV     := gcov-4.6
 else
-	CXX      := g++-4.8
 	COVFLAGS := -fprofile-arcs -ftest-coverage
 	GCOV     := gcov-4.8
+endif
+
+ifndef
+	CXX := g++-4.8
 endif
 
 CXXFLAGS := -pedantic -std=c++11 -O3 -Wall
@@ -23,9 +26,14 @@ main-old : main.c
 %.o : %.c++ Makefile
 	$(CXX) $(CXXFLAGS) -MD -c $*.c++
 
-test : Makefile
-	g++ $(CXXFLAGS) -MD -c main.c++ -DDEBUG 2>&1
-	g++ $(CXXFLAGS) -o main main.o 2>&1
+test : Makefile main main-old
+	./main
+	./main off
+	./main on
+	./main off top
+	./main on top
+	./main off bottom
+	./main on bottom
 	$(VALGRIND) ./main 2>&1
 
 clean :

@@ -11,6 +11,9 @@ addons:
 script:
    - date
    - ls -al
-   - make test
+   - make test CXX=g++-4.8
+   - ls -al
+   - make clean
+   - make test CXX=clang++
    - ls -al
    - date
