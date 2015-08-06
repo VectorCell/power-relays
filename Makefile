@@ -24,8 +24,8 @@ main-old : main.c
 	$(CXX) $(CXXFLAGS) -MD -c $*.c++
 
 test : Makefile
-	$(CXX) $(CXXFLAGS) -MD -c main.c++ -DDEBUG 2>&1
-	$(CXX) $(CXXFLAGS) -o main main.o 2>&1
+	g++ $(CXXFLAGS) -MD -c main.c++ -DDEBUG 2>&1
+	g++ $(CXXFLAGS) -o main main.o 2>&1
 	$(VALGRIND) ./main 2>&1
 
 clean :
