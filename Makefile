@@ -6,10 +6,6 @@ else
 	GCOV     := gcov-4.8
 endif
 
-ifndef CXX
-	CXX := g++-4.8
-endif
-
 CXXFLAGS := -pedantic -std=c++11 -O3 -Wall
 CFLAGS   := -std=c99 -O3 -Wall
 LDFLAGS  := -lwiringPi
@@ -21,7 +17,7 @@ main : main.o Makefile main-old
 	rm -f *.o
 
 main-old : main.c
-	gcc $(CFLAGS) $(LDFLAGS) main.c -o main-old
+	$(CC) $(CFLAGS) $(LDFLAGS) main.c -o main-old
 
 %.o : %.c++ Makefile
 	$(CXX) $(CXXFLAGS) -MD -c $*.c++ $(VARS)
