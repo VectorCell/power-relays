@@ -1,0 +1,14 @@
+language: cpp
+compiler: gcc
+before_install:
+  - sudo apt-get update  -qq
+install:
+  - sudo apt-get install -qq clang++
+  - sudo apt-get install -qq g++
+  - sudo apt-get install -qq valgrind
+script:
+   - date
+   - ls -al
+   - make test
+   - ls -al
+   - date

@@ -1,6 +1,8 @@
 # power-relays
 A command-line tool for controlling relays attached to Rasbperry Pi gpio pins.
 
+Designed to be compiled to the C++11 standard.
+
 Tested using the following compilers in the following operating systems:
 
 | compiler | version | OS |

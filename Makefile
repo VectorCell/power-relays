@@ -7,21 +7,26 @@ else
 	GCOV     := gcov-4.8
 endif
 
-CXXFLAGS := -pedantic -std=c++11 -Wall
+CXXFLAGS := -pedantic -std=c++11 -O3 -Wall
+CFLAGS   := -std=c99 -O3 -Wall
+LDFLAGS  := -lwiringPi
+VALGRIND := valgrind
 
 main : main.o Makefile main-old
-	g++-4.8 $(CXXFLAGS) -o main main.o -lwiringPi
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) main.o -o main
 	rm -f *.d
 	rm -f *.o
 
 main-old : main.c
-	gcc -std=c99 -O3 -Wall main.c -o main-old -lwiringPi
+	gcc $(CFLAGS) $(LDFLAGS) main.c -o main-old
 
 %.o : %.c++ Makefile
-	g++-4.8 $(CXXFLAGS) -MD -c $*.c++
+	$(CXX) $(CXXFLAGS) -MD -c $*.c++
 
-test : Makefile main
-	sudo ./main
+test : Makefile
+	$(CXX) $(CXXFLAGS) -MD -c main.c++ -DDEBUG
+	$(CXX) $(CXXFLAGS) -o main main.o
+	$(VALGRIND) ./main
 
 clean :
 	rm -f *.gcda
