@@ -38,7 +38,7 @@ test : Makefile main
 	./main on top
 	./main off bottom
 	./main on bottom
-	$(VALGRIND) --leak=check=full ./main 2>&1
+	$(VALGRIND) --leak-check=full ./main 2>&1
 
 clean :
 	rm -f *.d
