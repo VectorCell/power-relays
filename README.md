@@ -13,3 +13,5 @@ Tested using the following compilers in the following operating systems:
 | clang++ | 3.4 | Ubuntu 14.04 |
 
 Compiled using the -DDEBUG flag in all cases, except on Rasbpian.
+
+Travis CI output at https://travis-ci.org/VectorCell/power-relays
