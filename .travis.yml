@@ -17,4 +17,7 @@ script:
    - ls -al
    - make test VARS=-DDEBUG
    - ls -al
+   - make clean
+   - make test CXX=clang++ VARS=-DDEBUG
+   - ls -al
    - date
