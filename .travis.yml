@@ -1,12 +1,12 @@
 language: cpp
-compiler: gcc
+compiler:
+  - gcc
+  - g++
+  - clang++
 sudo: false
 addons:
   apt:
     packages:
-    - clang-3.4
-    - gcc
-    - g++-4.8
     - valgrind
 script:
    - date
