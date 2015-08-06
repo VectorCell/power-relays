@@ -6,6 +6,12 @@ else
 	GCOV     := gcov-4.8
 endif
 
+ifeq ($(CXX), g++)
+	CPP := g++-4.8
+else
+	CPP := $(CXX)
+endif
+
 CXXFLAGS := -pedantic -std=c++11 -O3 -Wall
 CFLAGS   := -std=c99 -O3 -Wall
 ifndef VARS
@@ -14,7 +20,7 @@ endif
 VALGRIND := valgrind
 
 main : main.o Makefile
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) main.o -o main
+	$(CPP) $(CXXFLAGS) $(LDFLAGS) main.o -o main $(VARS)
 	rm -f *.d
 	rm -f *.o
 
@@ -22,9 +28,9 @@ main-old : main.c
 	$(CC) $(CFLAGS) $(LDFLAGS) main.c -o main-old
 
 %.o : %.c++ Makefile
-	$(CXX) $(CXXFLAGS) -MD -c $*.c++ $(VARS)
+	$(CPP) $(CXXFLAGS) -MD -c $*.c++ $(VARS)
 
-test : Makefile main main-old
+test : Makefile main
 	./main
 	./main off
 	./main on
