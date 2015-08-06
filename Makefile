@@ -6,7 +6,7 @@ else
 	GCOV     := gcov-4.8
 endif
 
-ifndef
+ifndef CXX
 	CXX := g++-4.8
 endif
 

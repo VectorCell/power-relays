@@ -1,8 +1,6 @@
 language: cpp
 compiler:
   - gcc
-  - g++
-  - clang++
 sudo: false
 addons:
   apt:
@@ -11,9 +9,6 @@ addons:
 script:
    - date
    - ls -al
-   - make test CXX=g++-4.8 VARS=-DDEBUG
-   - ls -al
-   - make clean
-   - make test CXX=clang++ VARS=-DDEBUG
+   - make test
    - ls -al
    - date
