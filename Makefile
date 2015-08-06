@@ -24,7 +24,7 @@ main-old : main.c
 	gcc $(CFLAGS) $(LDFLAGS) main.c -o main-old
 
 %.o : %.c++ Makefile
-	$(CXX) $(CXXFLAGS) -MD -c $*.c++
+	$(CXX) $(CXXFLAGS) -MD -c $*.c++ $(VARS)
 
 test : Makefile main main-old
 	./main

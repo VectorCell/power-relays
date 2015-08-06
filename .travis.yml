@@ -11,9 +11,9 @@ addons:
 script:
    - date
    - ls -al
-   - make test CXX=g++-4.8
+   - make test CXX=g++-4.8 VARS=-DDEBUG
    - ls -al
    - make clean
-   - make test CXX=clang++
+   - make test CXX=clang++ VARS=-DDEBUG
    - ls -al
    - date
