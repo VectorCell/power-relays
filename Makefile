@@ -13,7 +13,7 @@ ifndef VARS
 endif
 VALGRIND := valgrind
 
-main : main.o Makefile main-old
+main : main.o Makefile
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) main.o -o main
 	rm -f *.d
 	rm -f *.o
