@@ -2,12 +2,11 @@
  * main.c++
  */
 
-#include <cstdio> // printf
 #include <cstdint>
-#include <cstring> // strcm
 
 #include <iostream> // cout
 #include <utility> // make_pair
+#include <string>
 #include <vector>
 #include <functional>
 
