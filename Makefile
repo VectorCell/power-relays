@@ -32,12 +32,10 @@ main-old : main.c
 
 test : Makefile main
 	./main
+	./main low
+	./main high
 	./main off
 	./main on
-	./main off top
-	./main on top
-	./main off bottom
-	./main on bottom
 	$(VALGRIND) --leak-check=full --show-reachable=yes ./main 2>&1
 
 clean :
