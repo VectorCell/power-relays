@@ -26,20 +26,20 @@ using namespace std;
 #define ON     3
 #define TOGGLE 4 // special state for switching from OFF and ON and vice-versa
 #define STATE  5 // special state signaling to print the state of the pin(s)
-typedef uint_fast8_t state_t;
+typedef uint_fast8_t state_type;
 
-typedef uint_fast8_t pin_num_t;
+typedef uint_fast8_t pin_num_type;
 struct pin {
-	pin_num_t num;
-	state_t on; // the state required for the pin to be "on", LOW or HIGH
+	pin_num_type num;
+	state_type on; // the state required for the pin to be "on", LOW or HIGH
 	string name;
-	pin (const pin_num_t& n, const state_t& o, const string& na) : num(n), on(o), name(na) {}
+	pin (const pin_num_type& n, const state_type& o, const string& na) : num(n), on(o), name(na) {}
 };
 
 typedef function<void(const pin&)> action;
 
 // returns either LOW or HIGH
-state_t get_state (const pin& p) {
+state_type get_state (const pin& p) {
 	#ifndef DEBUG
 		return digitalRead(p.num);
 	#else
@@ -47,7 +47,7 @@ state_t get_state (const pin& p) {
 	#endif
 }
 
-void set_state (const pin& p, state_t s) {
+void set_state (const pin& p, state_type s) {
 	if (s == OFF) {
 		s = !p.on;
 	} else if (s == ON) {
@@ -66,8 +66,8 @@ void print_state (const pin& p) {
 }
 
 // returns either OFF or ON
-state_t get_logical_state (const pin& p) {
-	state_t s = get_state(p);
+state_type get_logical_state (const pin& p) {
+	state_type s = get_state(p);
 	if (s == p.on) {
 		return ON;
 	} else {
@@ -79,13 +79,18 @@ void print_logical_state (const pin& p) {
 	cout << (get_logical_state(p) == ON);
 }
 
-void strobe(const pin& p) {
-	int n = 100;
-	for (int k = 0; k < n; ++k) {
-		cout << "party time with pin " << p.name << endl;
-		set_state(p, TOGGLE);
-		this_thread::sleep_for(chrono::milliseconds(100));
-	}
+void cycle_pin(const pin& p) {
+	int n = 5;
+	cout << "cycling pin, waiting for " << n << " seconds ... " << flush;
+	set_state(p, TOGGLE);
+	this_thread::sleep_for(chrono::milliseconds(n * 1000));
+	set_state(p, TOGGLE);
+	cout << "reset to original value." << endl;
+}
+
+void print_status(const pin& p) {
+	cout << p.name << " " << (get_logical_state(p) == ON ? "on" : "off");
+	cout << " (" << (get_state(p) == LOW ? "low" : "high") << ")" << endl;
 }
 
 bool init () {
@@ -112,8 +117,9 @@ int main (int argc, char *argv[]) {
 	state_actions.push_back(make_pair("off",    [] (const pin& p) -> void {set_state(p, OFF);}));
 	state_actions.push_back(make_pair("on",     [] (const pin& p) -> void {set_state(p, ON);}));
 	state_actions.push_back(make_pair("toggle", [] (const pin& p) -> void {set_state(p, TOGGLE);}));
-	state_actions.push_back(make_pair("strobe", strobe));
+	state_actions.push_back(make_pair("cycle",  cycle_pin));
 	state_actions.push_back(make_pair("state",  [&need_nl] (const pin& p) -> void {print_logical_state(p); need_nl = true;}));
+	state_actions.push_back(make_pair("status", print_status));
 
 	// here's where pin assigments are made
 	// these are numbered according to the pin mapping used by wiringPi,
@@ -137,9 +143,6 @@ int main (int argc, char *argv[]) {
 			cout << "\t" << p.name << endl;
 		}
 		cout << endl;
-//		cout << "examples: relays on" << endl;
-//		cout << "          relays off" << endl;
-//		cout << "          relays [off|on|toggle|state] [top|bottom|leds]" << endl;
 	} else {
 		// expects state first
 		action modify_state;
@@ -152,7 +155,12 @@ int main (int argc, char *argv[]) {
 			}
 		}
 		if (!valid_state) {
-			cerr << "ERROR: unknown state: " << argv[1] << endl;
+			cerr << "ERROR: unknown state: " << argv[1] << endl << endl;
+			cout << "valid states:" << endl;
+			for (auto& p : state_actions) {
+				cout << "\t" << p.first << endl;
+			}
+			cout << endl;
 			return 1;
 		}
 
@@ -166,14 +174,17 @@ int main (int argc, char *argv[]) {
 					}
 				}
 				if (!found) {
-					pin custom(atoi(argv[2]), HIGH, argv[2]);
-					cerr << "WARNING: using user-specified pin " << static_cast<int>(custom.num);
-					cerr << " (assuming that the pin's ON state is HIGH)" << endl;
-					modify_state(custom);
+					cout << "ERROR: unknown pin: " << argv[k] << endl;
+					cout << endl << "valid pins:" << endl;
+					for (auto& p : pins) {
+						cout << "\t" << p.name << endl;
+					}
+					cout << endl;
+					return 1;
 				}
 			}
 		} else {
-			// pin not specified, apply action to them all!
+			// pin not specified, apply action to them all
 			for (pin& p : pins) {
 				modify_state(p);
 			}

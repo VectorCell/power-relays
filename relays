@@ -5,7 +5,6 @@ dir=$(dirname $(readlink -f $DIR/$(basename "$0")))
 cd $dir
 
 if [ ! -e main ]; then
-	echo "building in $dir"
-	make
+	echo "not found"
 fi
 sudo ./main $@
