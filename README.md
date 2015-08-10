@@ -19,4 +19,3 @@ Travis CI builds at https://travis-ci.org/VectorCell/power-relays
 |Branch      |Status   |
 |------------|---------|
 |master      | [![Build Status](https://travis-ci.org/VectorCell/power-relays.svg?branch=master)](https://travis-ci.org/VectorCell/power-relays?branch=master) |
-|dev         | [![Build Status](https://travis-ci.org/VectorCell/power-relays.svg?branch=dev)](https://travis-ci.org/VectorCell/power-relays?branch=dev) |
