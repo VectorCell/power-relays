@@ -4,11 +4,11 @@
 
 outputfile="/run/shm/relays-debug-$RANDOM"
 
-cxxflags="-pedantic -std=c++0x -Wall"
-#cxxflags="-pedantic -std=c++11 -Wall"
+CXXFLAGS="-pedantic -std=c++0x -Wall"
+#CXXFLAGS="-pedantic -std=c++11 -Wall"
 
-g++ $cxxflags -MD -c main.c++ -DDEBUG
-g++ $cxxflags main.o -o $outputfile -DDEBUG
+g++ $CXXFLAGS -MD -c main.c++ -DDEBUG
+g++ $CXXFLAGS main.o -o $outputfile -DDEBUG
 rm -f *.o *.d
 $outputfile $@
 rm -f $outputfile

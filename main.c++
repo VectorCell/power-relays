@@ -1,6 +1,6 @@
 /*
- * main.c++
- */
+* main.c++
+*/
 
 #include <cstdint>
 
@@ -9,6 +9,9 @@
 #include <string>
 #include <vector>
 #include <functional>
+
+#include <chrono>
+#include <thread>
 
 #ifndef DEBUG
 	#include <wiringPi.h>
@@ -76,6 +79,15 @@ void print_logical_state (const pin& p) {
 	cout << (get_logical_state(p) == ON);
 }
 
+void strobe(const pin& p) {
+	int n = 100;
+	for (int k = 0; k < n; ++k) {
+		cout << "party time with pin " << p.name << endl;
+		set_state(p, TOGGLE);
+		this_thread::sleep_for(chrono::milliseconds(100));
+	}
+}
+
 bool init () {
 	#ifndef DEBUG
 		if (wiringPiSetup() == -1) {
@@ -100,21 +112,34 @@ int main (int argc, char *argv[]) {
 	state_actions.push_back(make_pair("off",    [] (const pin& p) -> void {set_state(p, OFF);}));
 	state_actions.push_back(make_pair("on",     [] (const pin& p) -> void {set_state(p, ON);}));
 	state_actions.push_back(make_pair("toggle", [] (const pin& p) -> void {set_state(p, TOGGLE);}));
+	state_actions.push_back(make_pair("strobe", strobe));
 	state_actions.push_back(make_pair("state",  [&need_nl] (const pin& p) -> void {print_logical_state(p); need_nl = true;}));
 
 	// here's where pin assigments are made
 	// these are numbered according to the pin mapping used by wiringPi,
 	// NOT the actual Broadcam numbers
 	vector<pin> pins;
-	pins.push_back(pin(12, HIGH, "top"));
-	pins.push_back(pin(13, HIGH, "bottom"));
-	pins.push_back(pin(4,  HIGH, "leds"));
+	pins.push_back(pin(12, HIGH, "precisix")); // 2-gang, top
+	pins.push_back(pin(13, HIGH, "fan")); // 2-gang, bottom
+	pins.push_back(pin(2,  LOW,  "tl")); // 4-gang, top left
+	pins.push_back(pin(3,  LOW,  "tr")); // 4-gang, top right
+	pins.push_back(pin(7,  LOW,  "lights-white")); // 4-gang, bottom left
+	pins.push_back(pin(0,  LOW,  "lights-color")); // 4-gang, bottom right
 
 	if (argc <= 1) {
-		cout << "usage:    relays STATE [PIN]" << endl;
-		cout << "examples: relays on" << endl;
-		cout << "          relays off" << endl;
-		cout << "          relays [off|on|toggle|state] [top|bottom|leds]" << endl;
+		cout << "usage:    relays STATE [PIN]" << endl << endl;
+		cout << "valid states:" << endl;
+		for (auto& p : state_actions) {
+			cout << "\t" << p.first << endl;
+		}
+		cout << endl << "valid pins:" << endl;
+		for (auto& p : pins) {
+			cout << "\t" << p.name << endl;
+		}
+		cout << endl;
+//		cout << "examples: relays on" << endl;
+//		cout << "          relays off" << endl;
+//		cout << "          relays [off|on|toggle|state] [top|bottom|leds]" << endl;
 	} else {
 		// expects state first
 		action modify_state;
