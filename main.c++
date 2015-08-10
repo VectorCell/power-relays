@@ -128,7 +128,7 @@ int main (int argc, char *argv[]) {
 	pins.push_back(pin(12, HIGH, "precisix")); // 2-gang, top
 	pins.push_back(pin(13, HIGH, "fan")); // 2-gang, bottom
 	pins.push_back(pin(2,  LOW,  "tl")); // 4-gang, top left
-	pins.push_back(pin(3,  LOW,  "tr")); // 4-gang, top right
+	pins.push_back(pin(3,  LOW,  "pitwo")); // 4-gang, top right
 	pins.push_back(pin(7,  LOW,  "lights-white")); // 4-gang, bottom left
 	pins.push_back(pin(0,  LOW,  "lights-color")); // 4-gang, bottom right
 
