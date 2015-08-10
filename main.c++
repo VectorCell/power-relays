@@ -111,15 +111,15 @@ int main (int argc, char *argv[]) {
 	// if we need a new line at the end of output
 	bool need_nl = false;
 
-	vector<pair<string, action>> state_actions;
-	state_actions.push_back(make_pair("low",    [] (const pin& p) -> void {set_state(p, LOW);}));
-	state_actions.push_back(make_pair("high",   [] (const pin& p) -> void {set_state(p, HIGH);}));
-	state_actions.push_back(make_pair("off",    [] (const pin& p) -> void {set_state(p, OFF);}));
-	state_actions.push_back(make_pair("on",     [] (const pin& p) -> void {set_state(p, ON);}));
-	state_actions.push_back(make_pair("toggle", [] (const pin& p) -> void {set_state(p, TOGGLE);}));
-	state_actions.push_back(make_pair("cycle",  cycle_pin));
-	state_actions.push_back(make_pair("state",  [&need_nl] (const pin& p) -> void {print_logical_state(p); need_nl = true;}));
-	state_actions.push_back(make_pair("status", print_status));
+	vector<pair<string, action>> actions;
+	actions.push_back(make_pair("low",    [] (const pin& p) -> void {set_state(p, LOW);}));
+	actions.push_back(make_pair("high",   [] (const pin& p) -> void {set_state(p, HIGH);}));
+	actions.push_back(make_pair("off",    [] (const pin& p) -> void {set_state(p, OFF);}));
+	actions.push_back(make_pair("on",     [] (const pin& p) -> void {set_state(p, ON);}));
+	actions.push_back(make_pair("toggle", [] (const pin& p) -> void {set_state(p, TOGGLE);}));
+	actions.push_back(make_pair("cycle",  cycle_pin));
+	actions.push_back(make_pair("state",  [&need_nl] (const pin& p) -> void {print_logical_state(p); need_nl = true;}));
+	actions.push_back(make_pair("status", print_status));
 
 	// here's where pin assigments are made
 	// these are numbered according to the pin mapping used by wiringPi,
@@ -133,9 +133,9 @@ int main (int argc, char *argv[]) {
 	pins.push_back(pin(0,  LOW,  "lights-color")); // 4-gang, bottom right
 
 	if (argc <= 1) {
-		cout << "usage:    relays STATE [PIN]" << endl << endl;
-		cout << "valid states:" << endl;
-		for (auto& p : state_actions) {
+		cout << "usage:    relays ACTION [PIN]" << endl << endl;
+		cout << "valid actions:" << endl;
+		for (auto& p : actions) {
 			cout << "\t" << p.first << endl;
 		}
 		cout << endl << "valid pins:" << endl;
@@ -147,7 +147,7 @@ int main (int argc, char *argv[]) {
 		// expects state first
 		action modify_state;
 		bool valid_state = false;
-		for (pair<string, action>& val : state_actions) {
+		for (auto& val : actions) {
 			if (val.first == argv[1]) {
 				modify_state = val.second;
 				valid_state = true;
@@ -155,9 +155,9 @@ int main (int argc, char *argv[]) {
 			}
 		}
 		if (!valid_state) {
-			cerr << "ERROR: unknown state: " << argv[1] << endl << endl;
-			cout << "valid states:" << endl;
-			for (auto& p : state_actions) {
+			cerr << "ERROR: unknown action: " << argv[1] << endl << endl;
+			cout << "valid actions:" << endl;
+			for (auto& p : actions) {
 				cout << "\t" << p.first << endl;
 			}
 			cout << endl;
