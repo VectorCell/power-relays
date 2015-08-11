@@ -7,14 +7,47 @@
 
 #include <cstdint>
 
+#ifndef DEBUG
+	#include <wiringPi.h>
+#endif
+
 using namespace std;
 
 // states
-#define LOW    0 // LOW and HIGH are actual pins states sent to the gpio pins
-#define HIGH   1
-#define OFF    2 // OFF and ON are logical states for practical purposes
-#define ON     3
-#define TOGGLE 4 // special state for switching from OFF and ON and vice-versa
+// LOW and HIGH are actual pins states sent to the gpio pins
+// LOW and HIGH are already defined in wiringPi.h
+// OFF and ON are logical states for practical purposes
+// TOGGLE is a special state for switching from OFF and ON and vice-versa
+// If any of these defines fail, it may require substantial changes to power-relays
+#ifdef LOW
+#	if LOW != 0
+#		error "LOW is not defined as 0."
+#	endif
+#else
+#	define LOW 0
+#endif
+#ifdef HIGH
+#	if HIGH != 1
+#		error "HIGH is not defined as 1."
+#	endif
+#else
+#	define HIGH 1
+#endif
+#ifdef OFF
+#	error "OFF already defined"
+#else
+#	define OFF 2
+#endif
+#ifdef ON
+#	error "ON already defined"
+#else
+#	define ON 3
+#endif
+#ifdef TOGGLE
+#	error "TOGGLE already defined"
+#else
+#	define TOGGLE 4
+#endif
 typedef uint_fast8_t state_type;
 
 typedef uint_fast8_t pin_num_type;
