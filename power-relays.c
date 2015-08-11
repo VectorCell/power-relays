@@ -1,7 +1,7 @@
 /*
- * main.c
+ * power-relays.c
  *
- * This is the old version. The new version is in main.c++
+ * This is the old version. The new version is in power-relays.cc
  */
 
 #include <stdlib.h>

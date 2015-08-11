@@ -1,5 +1,5 @@
 /*
-* main.c++
+* power-relays.cc
 */
 
 #include <cstdint>
@@ -17,26 +17,9 @@
 	#include <wiringPi.h>
 #endif
 
+#include "power-relays.h"
+
 using namespace std;
-
-// states
-#define LOW    0 // LOW and HIGH are actual pins states sent to the gpio pins
-#define HIGH   1
-#define OFF    2 // OFF and ON are logical states for practical purposes
-#define ON     3
-#define TOGGLE 4 // special state for switching from OFF and ON and vice-versa
-#define STATE  5 // special state signaling to print the state of the pin(s)
-typedef uint_fast8_t state_type;
-
-typedef uint_fast8_t pin_num_type;
-struct pin {
-	pin_num_type num;
-	state_type on; // the state required for the pin to be "on", LOW or HIGH
-	string name;
-	pin (const pin_num_type& n, const state_type& o, const string& na) : num(n), on(o), name(na) {}
-};
-
-typedef function<void(const pin&)> action;
 
 // returns either LOW or HIGH
 state_type get_state (const pin& p) {
@@ -59,6 +42,7 @@ void set_state (const pin& p, state_type s) {
 	#else
 		cout << "setting pin " << p.name << " (" << static_cast<int>(p.num) << ") to " << static_cast<int>(s) << endl;
 	#endif
+	print_status(p);
 }
 
 void print_state (const pin& p) {
@@ -73,6 +57,10 @@ state_type get_logical_state (const pin& p) {
 	} else {
 		return OFF;
 	}
+}
+
+void set_logical_state (const pin& p, state_type s) {
+	set_state(p, s);
 }
 
 void print_logical_state (const pin& p) {
@@ -91,6 +79,16 @@ void cycle_pin(const pin& p) {
 void print_status(const pin& p) {
 	cout << p.name << " " << (get_logical_state(p) == ON ? "on" : "off");
 	cout << " (" << (get_state(p) == LOW ? "low" : "high") << ")" << endl;
+}
+
+void init_pin(const pin& p) {
+	#ifndef DEBUG
+		state_type s = p.get_state();
+		pinMode(s, OUTPUT);
+		set_state(p, s);
+	#else
+		cout << "called init_pin on pin " << p.name << endl;
+	#endif
 }
 
 bool init () {
@@ -118,8 +116,9 @@ int main (int argc, char *argv[]) {
 	actions.push_back(make_pair("on",     [] (const pin& p) -> void {set_state(p, ON);}));
 	actions.push_back(make_pair("toggle", [] (const pin& p) -> void {set_state(p, TOGGLE);}));
 	actions.push_back(make_pair("cycle",  cycle_pin));
+	actions.push_back(make_pair("init",   init_pin));
 	actions.push_back(make_pair("state",  [&need_nl] (const pin& p) -> void {print_logical_state(p); need_nl = true;}));
-	actions.push_back(make_pair("status", print_status));
+	actions.push_back(make_pair("status", [] (const pin& p) -> void {print_status(p);}));
 
 	// here's where pin assigments are made
 	// these are numbered according to the pin mapping used by wiringPi,

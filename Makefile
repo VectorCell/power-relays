@@ -12,6 +12,10 @@ else
 	CPP := $(CXX)
 endif
 
+ifndef EXECFILE
+	EXECFILE := power-relays
+endif
+
 CXXFLAGS := -pedantic -std=c++11 -O3 -Wall
 CFLAGS   := -std=c99 -O3 -Wall
 ifndef VARS
@@ -19,29 +23,22 @@ ifndef VARS
 endif
 VALGRIND := valgrind
 
-main : main.o Makefile
-	$(CPP) $(CXXFLAGS) $(LDFLAGS) main.o -o main $(VARS)
-	rm -f *.d
-	rm -f *.o
+$(EXECFILE) : Makefile
+	$(CPP) $(CXXFLAGS) $(LDFLAGS) power-relays.h power-relays.cc -o $(EXECFILE) $(VARS)
 
-main-old : main.c
-	$(CC) $(CFLAGS) $(LDFLAGS) main.c -o main-old
+old :
+	$(CC) $(CFLAGS) $(LDFLAGS) power-relays.c -o power-relays-old
 
-%.o : %.c++ Makefile
-	$(CPP) $(CXXFLAGS) -MD -c $*.c++ $(VARS)
-
-test : Makefile main
-	./main
-	./main low
-	./main high
-	./main off
-	./main on
+test : Makefile $(EXECFILE)
+	./$(EXECFILE)
+	./$(EXECFILE) low
+	./$(EXECFILE) high
+	./$(EXECFILE) off
+	./$(EXECFILE) on
 	$(VALGRIND) --leak-check=full --show-reachable=yes ./main 2>&1
 
 clean :
-	rm -f *.d
-	rm -f *.o
-	rm -f main
-	rm -f main-old
+	rm -f $(EXECFILE)
+	rm -f power-relays-old
 
 -include *.d

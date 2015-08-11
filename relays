@@ -4,7 +4,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 dir=$(dirname $(readlink -f $DIR/$(basename "$0")))
 cd $dir
 
-if [ ! -e main ]; then
+if [ ! -e power-relays ]; then
 	echo "not found"
 fi
-sudo ./main $@
+sudo ./power-relays $@
