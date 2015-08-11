@@ -82,7 +82,7 @@ void print_status(const pin& p) {
 
 void init_pin(const pin& p) {
 	#ifndef DEBUG
-		state_type s = p.get_state();
+		state_type s = get_state(p);
 		pinMode(s, OUTPUT);
 		set_state(p, s);
 	#else

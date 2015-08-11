@@ -1,7 +1,6 @@
 # power-relays
-A command-line tool for controlling relays attached to Rasbperry Pi gpio pins.
 
-Designed to be compiled to the C++11 standard.
+A command-line tool for controlling relays attached to Rasbperry Pi gpio pins. Designed to be compiled to the C++11 standard, and dependent on [WiringPi](https://github.com/WiringPi/WiringPi).
 
 Tested using the following compilers in the following operating systems:
 
@@ -19,3 +18,5 @@ Travis CI builds:
 |Branch      |Status   |
 |------------|---------|
 |master      | [![Build Status](https://travis-ci.org/VectorCell/power-relays.svg?branch=master)](https://travis-ci.org/VectorCell/power-relays?branch=master) |
+
+Builds on Travis CI cannot test for full functionality with WiringPi.
