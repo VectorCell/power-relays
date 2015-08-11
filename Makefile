@@ -24,7 +24,7 @@ endif
 VALGRIND := valgrind
 
 $(EXECFILE) : Makefile
-	$(CPP) $(CXXFLAGS) $(LDFLAGS) power-relays.h power-relays.cc -o $(EXECFILE) $(VARS)
+	$(CPP) $(CXXFLAGS) $(LDFLAGS) power-relays.cc -o $(EXECFILE) $(VARS)
 
 old :
 	$(CC) $(CFLAGS) $(LDFLAGS) power-relays.c -o power-relays-old
