@@ -6,12 +6,6 @@ else
 	GCOV     := gcov-4.8
 endif
 
-ifeq ($(CXX), g++)
-	CPP := g++-4.8
-else
-	CPP := $(CXX)
-endif
-
 ifndef EXECFILE
 	EXECFILE := power-relays
 endif
@@ -23,8 +17,8 @@ ifndef VARS
 endif
 VALGRIND := valgrind
 
-$(EXECFILE) : Makefile
-	$(CPP) $(CXXFLAGS) $(LDFLAGS) power-relays.cc -o $(EXECFILE) $(VARS)
+$(EXECFILE) : Makefile power-relays.cc power-relays.h
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) power-relays.cc -o $(EXECFILE) $(VARS)
 
 old :
 	$(CC) $(CFLAGS) $(LDFLAGS) power-relays.c -o power-relays-old

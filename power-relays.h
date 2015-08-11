@@ -15,7 +15,6 @@ using namespace std;
 #define OFF    2 // OFF and ON are logical states for practical purposes
 #define ON     3
 #define TOGGLE 4 // special state for switching from OFF and ON and vice-versa
-#define STATE  5 // special state signaling to print the state of the pin(s)
 typedef uint_fast8_t state_type;
 
 typedef uint_fast8_t pin_num_type;
