@@ -7,10 +7,6 @@
 
 #include <cstdint>
 
-#ifndef DEBUG
-	#include <wiringPi.h>
-#endif
-
 using namespace std;
 
 // states
