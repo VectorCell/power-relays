@@ -13,10 +13,14 @@
 #include <thread>
 
 #ifndef DEBUG
-	#include <wiringPi.h>
+#	include <wiringPi.h>
 #endif
 
 #include "power-relays.h"
+
+#ifndef PINCONF
+#	define PINCONF "pins.conf"
+#endif
 
 using namespace std;
 
@@ -105,6 +109,12 @@ int main (int argc, char *argv[]) {
 		return 1;
 	}
 
+	vector<pin> pins;
+	if (!read_pins_file(PINCONF, pins)) {
+		cerr << "unable to open file: " << PINCONF << endl;
+		return 1;
+	}
+
 	// if we need a new line at the end of output
 	bool need_nl = false;
 
@@ -119,16 +129,6 @@ int main (int argc, char *argv[]) {
 	actions.push_back(make_pair("state",  [&need_nl] (const pin& p) -> void {print_logical_state(p); need_nl = true;}));
 	actions.push_back(make_pair("status", [] (const pin& p) -> void {print_status(p);}));
 
-	// here's where pin assigments are made
-	// these are numbered according to the pin mapping used by wiringPi,
-	// NOT the actual Broadcam numbers
-	vector<pin> pins;
-	pins.push_back(pin(12, HIGH, "precisix")); // 2-gang, top
-	pins.push_back(pin(13, HIGH, "fan")); // 2-gang, bottom
-	pins.push_back(pin(2,  LOW,  "tl")); // 4-gang, top left
-	pins.push_back(pin(3,  LOW,  "pitwo")); // 4-gang, top right
-	pins.push_back(pin(7,  LOW,  "lights-white")); // 4-gang, bottom left
-	pins.push_back(pin(0,  LOW,  "lights-color")); // 4-gang, bottom right
 
 	if (argc <= 1) {
 		cout << "usage:    relays ACTION [PIN]" << endl << endl;

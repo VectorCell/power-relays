@@ -7,6 +7,8 @@
 
 #include <cstdint>
 #include <string>
+#include <fstream>
+#include <sstream>
 
 #ifndef DEBUG
 	#include <wiringPi.h>
@@ -80,5 +82,34 @@ void print_status (const pin& p);
 void init_pin (const pin& p);
 
 bool init ();
+
+// C should be an stl container of pins
+// must support the push_back method
+template <class C>
+bool read_pins_file(const std::string& filename, C& destination) {
+	using namespace std;
+	ifstream reader;
+	reader.open(filename);
+	string line;
+	string comment_prefix = "#";
+	if (reader.is_open()) {
+		while (getline(reader, line)) {
+			if ((line.size() != 0) && !equal(comment_prefix.begin(), comment_prefix.end(), line.begin())) {
+				istringstream ss(line);
+				int num;
+				ss >> num;
+				int on;
+				ss >> on;
+				string name;
+				ss >> name;
+				destination.push_back(pin(num, on, name));
+			}
+		}
+		reader.close();
+		return true;
+	} else {
+		return false;
+	}
+}
 
 #endif // end ifndef __POWER_RELAYS_H__
