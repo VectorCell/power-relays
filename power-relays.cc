@@ -2,14 +2,13 @@
 * power-relays.cc
 */
 
-#include <cstdint>
-
 #include <iostream> // cout
 #include <utility> // make_pair
 #include <string>
 #include <vector>
 #include <functional>
 
+// for sleep functionality in cycle_pin
 #include <chrono>
 #include <thread>
 

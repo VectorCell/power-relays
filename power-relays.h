@@ -7,15 +7,6 @@
 
 #include <cstdint>
 
-#include <iostream> // cout
-#include <utility> // make_pair
-#include <string>
-#include <vector>
-#include <functional>
-
-#include <chrono>
-#include <thread>
-
 #ifndef DEBUG
 	#include <wiringPi.h>
 #endif
