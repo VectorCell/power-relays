@@ -35,7 +35,7 @@ test : Makefile $(EXECFILE)
 	./$(EXECFILE) high
 	./$(EXECFILE) off
 	./$(EXECFILE) on
-	$(VALGRIND) --leak-check=full --show-reachable=yes ./main 2>&1
+	$(VALGRIND) --leak-check=full --show-reachable=yes ./$(EXECFILE) 2>&1
 
 clean :
 	rm -f $(EXECFILE)
