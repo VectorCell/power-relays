@@ -6,12 +6,11 @@
 #define __POWER_RELAYS_H__
 
 #include <cstdint>
+#include <string>
 
 #ifndef DEBUG
 	#include <wiringPi.h>
 #endif
-
-using namespace std;
 
 // states
 // LOW and HIGH are actual pins states sent to the gpio pins
@@ -54,11 +53,11 @@ typedef uint_fast8_t pin_num_type;
 struct pin {
 	pin_num_type num;
 	state_type on; // the state required for the pin to be "on", LOW or HIGH
-	string name;
-	pin (const pin_num_type& n, const state_type& o, const string& na) : num(n), on(o), name(na) {}
+	std::string name;
+	pin (const pin_num_type& n, const state_type& o, const std::string& na) : num(n), on(o), name(na) {}
 };
 
-typedef function<void(const pin&)> action;
+typedef std::function<void(const pin&)> action;
 
 // returns either LOW or HIGH
 state_type get_state (const pin& p);

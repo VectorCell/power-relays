@@ -174,7 +174,7 @@ int main (int argc, char *argv[]) {
 				if (!found) {
 					cout << "ERROR: unknown pin: " << argv[k] << endl;
 					cout << endl << "valid pins:" << endl;
-					for (auto& p : pins) {
+					for (pin& p : pins) {
 						cout << "\t" << p.name << endl;
 					}
 					cout << endl;
