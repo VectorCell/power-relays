@@ -4,7 +4,16 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 dir=$(dirname $(readlink -f $DIR/$(basename "$0")))
 cd $dir
 
-if [ ! -e power-relays ]; then
-	echo "not found"
+relayshostname=$(cat remote.conf | tail -n 2 | head -n 1)
+relaysdnsname=$(cat remote.conf | tail -n 1)
+
+if [ "$HOSTNAME" != "$relayshostname" ]; then
+	ssh $relaysdnsname "~/bin/relays $@"
+else
+	if [ -e power-relays ]; then
+		sudo ./power-relays $@
+	else
+		echo "ERROR: power-relays executable not found"
+		echo "(maybe you need to run make?)"
+	fi
 fi
-sudo ./power-relays $@
