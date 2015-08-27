@@ -2,8 +2,8 @@
 * power-relays.h
 */
 
-#ifndef __POWER_RELAYS_H__
-#define __POWER_RELAYS_H__
+#ifndef POWER_RELAYS_H
+#define POWER_RELAYS_H
 
 #include <cstdint>
 #include <string>
@@ -112,4 +112,4 @@ bool read_pins_file(const std::string& filename, C& destination) {
 	}
 }
 
-#endif // end ifndef __POWER_RELAYS_H__
+#endif // end ifndef POWER_RELAYS_H
