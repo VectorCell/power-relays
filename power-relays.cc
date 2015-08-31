@@ -127,7 +127,7 @@ int main (int argc, char *argv[]) {
 	actions.push_back(make_pair("cycle",  cycle_pin));
 	actions.push_back(make_pair("init",   init_pin));
 	actions.push_back(make_pair("state",  [&need_nl] (const pin& p) -> void {print_logical_state(p); need_nl = true;}));
-	actions.push_back(make_pair("status", [] (const pin& p) -> void {print_status(p);}));
+	actions.push_back(make_pair("status", print_status));
 
 
 	if (argc <= 1) {
