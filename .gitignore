@@ -1,4 +1,5 @@
 power-relays
 power-relays-old
+switch-monitor
 *.d
 *.o

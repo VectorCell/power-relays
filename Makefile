@@ -17,8 +17,13 @@ ifndef VARS
 endif
 VALGRIND := valgrind
 
-$(EXECFILE) : Makefile power-relays.cc power-relays.h
+all : Makefile $(EXECFILE) switch-monitor
+
+$(EXECFILE) : power-relays.cc power-relays.h
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) power-relays.cc -o $(EXECFILE) $(VARS)
+
+switch-monitor : switch-monitor.c
+	$(CC) $(CFLAGS) $(LDFLAGS) switch-monitor.c -o switch-monitor
 
 old :
 	$(CC) $(CFLAGS) $(LDFLAGS) power-relays.c -o power-relays-old
@@ -33,6 +38,7 @@ test : Makefile $(EXECFILE)
 
 clean :
 	rm -f $(EXECFILE)
+	rm -f switch-monitor
 	rm -f power-relays-old
 
 -include *.d
