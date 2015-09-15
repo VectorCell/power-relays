@@ -41,5 +41,6 @@ int main (int argc, char *argv[]) {
 		delay(60000);
 	}
 
-	return 0;
+	// unreachable
+	return -999;
 }
