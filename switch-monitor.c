@@ -6,9 +6,11 @@
 #include <signal.h>
 #include <wiringPi.h>
 
-#define P_SW   5
-#define P_LED  4
-#define P_OUT 12
+#define P_SW      5
+#define P_LED     4
+#define P_COMP   12
+#define P_LIGHTS  7
+#define P_FAN     3
 
 void sig_handler(int sig) {
 	if (sig == SIGINT || sig == SIGTERM) {
@@ -20,27 +22,33 @@ void sig_handler(int sig) {
 void read_switch () {
 	if (digitalRead(P_SW) == HIGH) {
 		digitalWrite(P_LED, HIGH);
-		digitalWrite(P_OUT, HIGH);
+
+		digitalWrite(P_COMP,   HIGH);
+		digitalWrite(P_LIGHTS, LOW);
+		digitalWrite(P_FAN,    LOW);
 	} else {
 		digitalWrite(P_LED, LOW);
 	}
 }
 
 int main (int argc, char *argv[]) {
-	signal(SIGINT, sig_handler);
-	signal(SIGTERM, sig_handler);
 
 	if (wiringPiSetup() == -1)
 		return 1;
-	pinMode(P_SW,  INPUT);
-	pinMode(P_LED, OUTPUT);
-	pinMode(P_OUT, OUTPUT);
+	pinMode(P_SW,     INPUT);
+	pinMode(P_LED,    OUTPUT);
+	pinMode(P_COMP,   OUTPUT);
+	pinMode(P_LIGHTS, OUTPUT);
+	pinMode(P_FAN,    OUTPUT);
 	wiringPiISR(P_SW, INT_EDGE_BOTH, read_switch);
+
+	signal(SIGINT, sig_handler);
+	signal(SIGTERM, sig_handler);
 
 	while (1) {
 		delay(60000);
 	}
 
 	// unreachable
-	return -999;
+	return -1;
 }

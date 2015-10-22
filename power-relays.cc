@@ -79,6 +79,21 @@ void cycle_pin(const pin& p) {
 	cout << "reset to original value." << endl;
 }
 
+void strobe_pin(const pin& p) {
+	int n = 60;
+	cout << "strobing pin for " << n << " seconds ... " << flush;
+
+	state_type orig = get_state(p);
+	bool clk = false;
+	for (time_t t = time(NULL) + n; time(NULL) < t; ) {
+		digitalWrite(p.num, (clk = !clk) ? HIGH : LOW);
+		this_thread::sleep_for(chrono::milliseconds(50));
+	}
+	set_state(p, orig);
+
+	cout << "reset to original value." << endl;
+}
+
 void print_status(const pin& p) {
 	cout << p.name << " " << (get_logical_state(p) == ON ? "on" : "off");
 	cout << " (" << (get_state(p) == LOW ? "low" : "high") << ")" << endl;
@@ -125,6 +140,7 @@ int main (int argc, char *argv[]) {
 	actions.push_back(make_pair("on",     [] (const pin& p) -> void {set_state(p, ON);}));
 	actions.push_back(make_pair("toggle", [] (const pin& p) -> void {set_state(p, TOGGLE);}));
 	actions.push_back(make_pair("cycle",  cycle_pin));
+	actions.push_back(make_pair("strobe", strobe_pin));
 	actions.push_back(make_pair("init",   init_pin));
 	actions.push_back(make_pair("state",  [&need_nl] (const pin& p) -> void {print_logical_state(p); need_nl = true;}));
 	actions.push_back(make_pair("status", print_status));
