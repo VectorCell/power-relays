@@ -83,14 +83,16 @@ void strobe_pin(const pin& p) {
 	int n = 60;
 	cout << "strobing pin for " << n << " seconds ... " << flush;
 
-	state_type orig = get_state(p);
-	bool clk = false;
-	for (time_t t = time(NULL) + n; time(NULL) < t; ) {
-		digitalWrite(p.num, (clk = !clk) ? HIGH : LOW);
-		this_thread::sleep_for(chrono::milliseconds(50));
-	}
-	set_state(p, orig);
 
+	state_type orig = get_state(p);
+	#ifdef DEBUG
+		bool clk = false;
+		for (time_t t = time(NULL) + n; time(NULL) < t; ) {
+			digitalWrite(p.num, (clk = !clk) ? HIGH : LOW);
+			this_thread::sleep_for(chrono::milliseconds(50));
+		}
+	#endif
+	set_state(p, orig);
 	cout << "reset to original value." << endl;
 }
 
