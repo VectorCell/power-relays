@@ -85,7 +85,7 @@ void strobe_pin(const pin& p) {
 
 
 	state_type orig = get_state(p);
-	#ifdef DEBUG
+	#ifndef DEBUG
 		bool clk = false;
 		for (time_t t = time(NULL) + n; time(NULL) < t; ) {
 			digitalWrite(p.num, (clk = !clk) ? HIGH : LOW);
