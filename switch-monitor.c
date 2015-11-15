@@ -25,7 +25,7 @@ void read_switch () {
 
 		digitalWrite(P_COMP,   HIGH);
 		digitalWrite(P_LIGHTS, LOW);
-		digitalWrite(P_FAN,    LOW);
+		//digitalWrite(P_FAN,    LOW);
 	} else {
 		digitalWrite(P_LED, LOW);
 	}
