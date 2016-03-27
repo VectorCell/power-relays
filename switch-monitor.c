@@ -10,7 +10,7 @@
 #define P_LED     4
 #define P_COMP   12
 #define P_LIGHTS  7
-#define P_FAN     3
+#define P_AP      3
 
 void sig_handler(int sig) {
 	if (sig == SIGINT || sig == SIGTERM) {
@@ -25,7 +25,7 @@ void read_switch () {
 
 		digitalWrite(P_COMP,   HIGH);
 		digitalWrite(P_LIGHTS, LOW);
-		//digitalWrite(P_FAN,    LOW);
+		digitalWrite(P_AP,     LOW);
 	} else {
 		digitalWrite(P_LED, LOW);
 	}
@@ -39,7 +39,7 @@ int main (int argc, char *argv[]) {
 	pinMode(P_LED,    OUTPUT);
 	pinMode(P_COMP,   OUTPUT);
 	pinMode(P_LIGHTS, OUTPUT);
-	pinMode(P_FAN,    OUTPUT);
+	pinMode(P_AP,     OUTPUT);
 	wiringPiISR(P_SW, INT_EDGE_BOTH, read_switch);
 
 	signal(SIGINT, sig_handler);
