@@ -48,7 +48,8 @@
 			echo "<td><img id='button" . $pinnum
 				. "' src='img/" . get_state_image($pinon)
 				. "' onclick='changepin(" . $pinnum . ", " . $onstate . ");'></td>\n";
-			echo "<td><h1 style='font-size: 96pt; font-family: monospace;'>" . strtoupper($pinname) . "</h1></td>\n";
+			echo "<td><h1 style='font-size: 96pt; font-family: monospace;'>"
+				. strtoupper($pinname) . "</h1></td>\n";
 			echo "</tr>\n";
 			echo "\n";
 		}
@@ -72,7 +73,8 @@
 				. "' style='max-width: 30%; max-height: 30%;"
 				. "' src='img/" . get_state_image($pinon)
 				. "' onclick='changepin(" . $pinnum . ", " . $onstate . ");'></td>\n";
-			echo "<td><h1 style='font-size: 32pt; font-family: monospace;'>" . strtoupper($pinname) . "</h1></td>\n";
+			echo "<td><h1 style='font-size: 32pt; font-family: monospace;'>"
+				. strtoupper($pinname) . "</h1></td>\n";
 			echo "</tr>\n";
 			echo "\n";
 		}
@@ -95,5 +97,14 @@
 				get_buttons_desktop();
 			}
 		?>
+		<pre><?php
+			if (!is_mobile()) {
+				system("cat pins.conf");
+				echo "\n\n";
+				echo "Address:    " . $_SERVER['HTTP_REFERER'] . "\n";
+				echo "Client IP:  " . $_SERVER['REMOTE_ADDR'] . "\n";
+				echo "User Agent: " . $_SERVER['HTTP_USER_AGENT'] . "\n";
+			}
+		?></pre>
 	</body>
 </html>
