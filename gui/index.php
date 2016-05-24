@@ -45,7 +45,7 @@
 			if ($onstate === exec("gpio read " . $pinnum)) {
 				$pinon = true;
 			}
-			echo "<td><img id='button" . $pinnum
+			echo "<td><img class='button' id='button" . $pinnum
 				. "' src='img/" . get_state_image($pinon)
 				. "' onclick='changepin(" . $pinnum . ", " . $onstate . ");'></td>\n";
 			echo "<td><h1>" . strtoupper($pinname) . "</h1></td>\n";
@@ -68,7 +68,7 @@
 			if ($onstate === exec("gpio read " . $pinnum)) {
 				$pinon = true;
 			}
-			echo "<td><img id='button" . $pinnum
+			echo "<td><img class='button' id='button" . $pinnum
 				. "' style='max-width: 30%; max-height: 30%;"
 				. "' src='img/" . get_state_image($pinon)
 				. "' onclick='changepin(" . $pinnum . ", " . $onstate . ");'></td>\n";
