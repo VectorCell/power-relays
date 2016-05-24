@@ -48,8 +48,7 @@
 			echo "<td><img id='button" . $pinnum
 				. "' src='img/" . get_state_image($pinon)
 				. "' onclick='changepin(" . $pinnum . ", " . $onstate . ");'></td>\n";
-			echo "<td><h1 style='font-size: 96pt; font-family: monospace;'>"
-				. strtoupper($pinname) . "</h1></td>\n";
+			echo "<td><h1>" . strtoupper($pinname) . "</h1></td>\n";
 			echo "</tr>\n";
 			echo "\n";
 		}
@@ -73,8 +72,7 @@
 				. "' style='max-width: 30%; max-height: 30%;"
 				. "' src='img/" . get_state_image($pinon)
 				. "' onclick='changepin(" . $pinnum . ", " . $onstate . ");'></td>\n";
-			echo "<td><h1 style='font-size: 32pt; font-family: monospace;'>"
-				. strtoupper($pinname) . "</h1></td>\n";
+			echo "<td><h1>" . strtoupper($pinname) . "</h1></td>\n";
 			echo "</tr>\n";
 			echo "\n";
 		}
@@ -87,9 +85,10 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Power Relays</title>
+		<link rel="stylesheet" href="style.css">
 		<script src="changepin.js"></script>
 	</head>
-	<body style="color: white; background-color: black;">
+	<body>
 		<?php
 			if (is_mobile()) {
 				get_buttons_mobile();

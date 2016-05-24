@@ -1,0 +1,13 @@
+body {
+	color: white;
+	background-color: black;
+}
+
+h1 {
+	font-size: 32pt;
+	font-family: monospace;
+}
+
+pre {
+	color: green;
+}
