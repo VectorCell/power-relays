@@ -97,8 +97,9 @@ void strobe_pin(const pin& p) {
 }
 
 void print_status(const pin& p) {
-	cout << p.name << " " << (get_logical_state(p) == ON ? "on" : "off");
-	cout << " (" << (get_state(p) == LOW ? "low" : "high") << ")" << endl;
+	//cout << p.name << " " << (get_logical_state(p) == ON ? "on" : "off");
+	//cout << " (" << (get_state(p) == LOW ? "low" : "high") << ")" << endl;
+	printf("%-10s %-3s\n", p.name.c_str(), get_logical_state(p) == ON ? "on" : "off");
 }
 
 void init_pin(const pin& p) {
