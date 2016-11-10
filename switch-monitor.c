@@ -7,9 +7,9 @@
 #include <wiringPi.h>
 
 #define P_SW        5
-#define P_LED       4
+#define P_LED       7
 #define P_PRECISIX 12
-#define P_LIGHTS    7
+#define P_LIGHTS   13
 #define P_AP        3
 
 typedef struct pin_struct {
