@@ -10,3 +10,4 @@ fi
 sudo rsync -r --progress gui /var/www/
 sudo cp pins.conf /var/www/gui/
 
+sudo service apache2 restart
