@@ -7,10 +7,10 @@
 #include <wiringPi.h>
 
 #define P_SW        5
-#define P_LED       7
+#define P_LEDS      9
 #define P_PRECISIX 12
-#define P_LIGHTS   13
-#define P_AP        3
+#define P_LAMP     13
+#define P_AP        0
 
 typedef struct pin_struct {
 	int num;
@@ -18,15 +18,15 @@ typedef struct pin_struct {
 } pin_type;
 
 pin_type output_pins[] = {
-	{P_LED, 1},
+	{P_LEDS, 0},
 	{P_PRECISIX, 1},
-	{P_LIGHTS, 0},
+	{P_LAMP, 1},
 	{P_AP, 0}
 };
 
 void sig_handler(int sig) {
 	if (sig == SIGINT || sig == SIGTERM) {
-		digitalWrite(P_LED, LOW);
+		digitalWrite(P_LEDS, LOW);
 		exit(0);
 	}
 }
@@ -37,7 +37,11 @@ void read_switch () {
 			digitalWrite(output_pins[k].num, output_pins[k].onstate);
 		}
 	} else {
-		digitalWrite(P_LED, LOW);
+		for (int k = 0; k < sizeof(output_pins) / sizeof(pin_type); ++k) {
+			if (output_pins[k].num == P_LEDS) {
+				digitalWrite(output_pins[k].num, !output_pins[k].onstate);
+			}
+		}
 	}
 }
 
