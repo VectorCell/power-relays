@@ -12,7 +12,7 @@
 #include <stdbool.h>
 #include <wiringPi.h>
 
-#define P_DATA      0
+#define P_DATA      1  // hardware dependent
 #define MAXTIMINGS 85
 
 bool read_dht11_dat (int data[5])
