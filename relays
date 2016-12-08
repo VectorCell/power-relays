@@ -11,7 +11,7 @@ if [ "$HOSTNAME" != "$relayshostname" ]; then
 	ssh $relaysdnsname "~/bin/relays $@"
 else
 	if [ -e power-relays ]; then
-		sudo ./power-relays $@
+		./power-relays $@
 	else
 		echo "ERROR: power-relays executable not found"
 		echo "(maybe you need to run make?)"
