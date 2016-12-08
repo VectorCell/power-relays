@@ -17,13 +17,16 @@ ifndef VARS
 endif
 VALGRIND := valgrind
 
-all : Makefile $(EXECFILE) switch-monitor
+all : Makefile $(EXECFILE) switch-monitor read_dht11
 
 $(EXECFILE) : power-relays.cc power-relays.h
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) power-relays.cc -o $(EXECFILE) $(VARS)
 
 switch-monitor : switch-monitor.c
 	$(CC) $(CFLAGS) $(LDFLAGS) switch-monitor.c -o switch-monitor
+
+read_dht11 : read_dht11.c
+	$(CC) $(CFLAGS) $(LDFLAGS) read_dht11.c -o read_dht11
 
 old :
 	$(CC) $(CFLAGS) $(LDFLAGS) power-relays.c -o power-relays-old

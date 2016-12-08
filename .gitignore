@@ -1,5 +1,6 @@
 power-relays
 power-relays-old
 switch-monitor
+read_dht11
 *.d
 *.o
