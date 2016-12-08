@@ -1,5 +1,7 @@
 #!/bin/bash
 
+make
+
 cd ~/bin
 ln -s ~/Programs/power-relays/relays
 
