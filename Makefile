@@ -17,7 +17,7 @@ ifndef VARS
 endif
 VALGRIND := valgrind
 
-all : Makefile $(EXECFILE) switch-monitor read_dht11
+all : Makefile $(EXECFILE) switch-monitor
 
 $(EXECFILE) : power-relays.cc power-relays.h
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) power-relays.cc -o $(EXECFILE) $(VARS)
@@ -28,12 +28,6 @@ switch-monitor : switch-monitor.c
 	$(CC) $(CFLAGS) $(LDFLAGS) switch-monitor.c -o switch-monitor
 	sudo chown root:root switch-monitor
 	sudo chmod +s switch-monitor
-	
-
-read_dht11 : read_dht11.c
-	$(CC) $(CFLAGS) $(LDFLAGS) read_dht11.c -o read_dht11
-	sudo chown root:root read_dht11
-	sudo chmod +s read_dht11
 
 old :
 	$(CC) $(CFLAGS) $(LDFLAGS) power-relays.c -o power-relays-old
