@@ -17,7 +17,7 @@ ifndef VARS
 endif
 VALGRIND := valgrind
 
-all : Makefile $(EXECFILE) switch-monitor
+all : Makefile $(EXECFILE) switch-monitor fast-toggle
 
 $(EXECFILE) : power-relays.cc power-relays.h
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) power-relays.cc -o $(EXECFILE) $(VARS)
@@ -33,6 +33,11 @@ old :
 	$(CC) $(CFLAGS) $(LDFLAGS) power-relays.c -o power-relays-old
 	sudo chown root:root power-relays-old
 	sudo chmod +s power-relays-old
+
+fast-toggle :
+	$(CC) $(CFLAGS) $(LDFLAGS) fast-toggle.c -o fast-toggle
+	sudo chown root:root fast-toggle
+	sudo chmod +s fast-toggle
 
 test : Makefile $(EXECFILE)
 	./$(EXECFILE)
