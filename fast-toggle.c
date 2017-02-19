@@ -30,11 +30,12 @@ int main (int argc, char *argv[]) {
 		return 1;
 
 	pinMode(PIN, OUTPUT);
-	int val = 0;
+	uint64_t val = 0;
 	while (1) {
-		digitalWrite(PIN, val);
-		val = !val;
-		//delay(DELAY);
+		digitalWrite(PIN, val % 2 == 0);
+		//printf("%d\n", (int)(val % 100));
+		//delay(val % 100);
+		++val;
 	}
 
 	return 0;
