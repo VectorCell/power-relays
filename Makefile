@@ -13,11 +13,10 @@ endif
 CXXFLAGS := -pedantic -std=c++11 -O3 -Wall
 CFLAGS   := -std=c99 -O3 -Wall
 ifndef VARS
-	LDFLAGS  := -lwiringPi
+	LDFLAGS  := -pthread -lwiringPi
 endif
-VALGRIND := valgrind
 
-all : Makefile $(EXECFILE) switch-monitor fast-toggle
+all : $(EXECFILE) switch-monitor pwm-software
 
 $(EXECFILE) : power-relays.cc power-relays.h
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) power-relays.cc -o $(EXECFILE) $(VARS)
@@ -29,27 +28,29 @@ switch-monitor : switch-monitor.c
 	sudo chown root:root switch-monitor
 	sudo chmod +s switch-monitor
 
-old :
-	$(CC) $(CFLAGS) $(LDFLAGS) power-relays.c -o power-relays-old
-	sudo chown root:root power-relays-old
-	sudo chmod +s power-relays-old
+pwm-software :
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) pwm-software.cc -o pwm-software $(VARS)
+	sudo chown root:root pwm-software
+	sudo chmod +s pwm-software
 
-fast-toggle :
-	$(CC) $(CFLAGS) $(LDFLAGS) fast-toggle.c -o fast-toggle
-	sudo chown root:root fast-toggle
-	sudo chmod +s fast-toggle
-
-test : Makefile $(EXECFILE)
+test : $(EXECFILE)
 	./$(EXECFILE)
+	sleep 1
 	./$(EXECFILE) low
+	sleep 1
 	./$(EXECFILE) high
+	sleep 1
 	./$(EXECFILE) off
+	sleep 1
 	./$(EXECFILE) on
-#	$(VALGRIND) --leak-check=full --show-reachable=yes ./$(EXECFILE) 2>&1
+
+push-master :
+	git push && git checkout master && git merge dev && git push && git checkout dev
 
 clean :
 	rm -f $(EXECFILE)
 	rm -f switch-monitor
 	rm -f power-relays-old
+	rm -f pwm-software
 
 -include *.d
