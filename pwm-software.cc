@@ -1,7 +1,5 @@
 /*
- * power-relays.c
- *
- * This is the old version. The new version is in power-relays.cc
+ * pwm-software.cc
  */
 
 #include <iostream>
@@ -15,6 +13,7 @@
 #include <cassert>
 #include <signal.h>
 #include <time.h>
+#include <unistd.h>
 
 #include <wiringPi.h>
 
@@ -33,6 +32,7 @@ bool running = true;
 
 void sig_handler(int sig) {
 	if (sig == SIGINT || sig == SIGTERM) {
+		printf("Terminating due to signal ...\n");
 		digitalWrite(pin, LOW);
 		exit(0);
 	}
@@ -48,9 +48,6 @@ void set_pwm_duty_percent(int percent) {
 }
 
 void pwm_software() {
-	//digitalWrite(pin, HIGH);
-	//printf("initializing ...\n");
-	//delay(PERIOD * 10);
 	printf("beginning software pwm ...\n");
 	while (running) {
 		digitalWrite(pin, HIGH);
@@ -79,7 +76,7 @@ int main (int argc, char *argv[]) {
 		return 1;
 	}
 	pinMode(pin, OUTPUT);
-	
+
 	thread worker_pwm(pwm_software);
 
 	string line;
